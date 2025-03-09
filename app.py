@@ -52,3 +52,36 @@ def chat():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
+from flask import Flask, request, jsonify
+import os
+import slack
+import json
+
+app = Flask(__name__)
+
+SLACK_TOKEN = "your-slack-bot-token"  # You'll get this from Slack
+client = slack.WebClient(token=SLACK_TOKEN)
+
+@app.route("/slack/events", methods=["POST"])
+def slack_events():
+    data = request.json
+    if "challenge" in data:
+        return jsonify({"challenge": data["challenge"]})
+
+    event = data.get("event", {})
+    if event.get("type") == "app_mention":
+        user_query = event.get("text").replace("<@your-bot-id>", "").strip()
+        response = get_bot_response(user_query)
+        client.chat_postMessage(
+            channel=event["channel"],
+            text=response
+        )
+    return jsonify({"status": "ok"})
+
+
+def get_bot_response(query):
+    # Here, you can use your existing logic to get the response from the chatbot
+    return f"Here's the answer to: {query}"
+
+if __name__ == "__main__":
+    app.run(debug=True)
