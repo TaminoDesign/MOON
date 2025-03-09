@@ -59,7 +59,7 @@ import json
 
 app = Flask(__name__)
 
-SLACK_TOKEN = "your-slack-bot-token"  # You'll get this from Slack
+SLACK_TOKEN = "670PokSihTB5DdRvk67vePgP"  # You'll get this from Slack
 client = slack.WebClient(token=SLACK_TOKEN)
 
 @app.route("/slack/events", methods=["POST"])
@@ -70,7 +70,7 @@ def slack_events():
 
     event = data.get("event", {})
     if event.get("type") == "app_mention":
-        user_query = event.get("text").replace("<@your-bot-id>", "").strip()
+        user_query = event.get("text").replace("<@A08HJJWC1ME>", "").strip()
         response = get_bot_response(user_query)
         client.chat_postMessage(
             channel=event["channel"],
