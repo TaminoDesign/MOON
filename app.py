@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # Load models and data
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
-index = faiss.read_index("index.faiss")
+index = faiss.read_index("index_plain.faiss")
 with open("texts.pkl", "rb") as f:
     texts = pickle.load(f)
 
