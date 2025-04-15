@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>School Chatbot</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; }
+        input, button { font-size: 16px; padding: 10px; width: 100%; margin: 10px 0; }
+        #answer { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h2>Ask the School Chatbot</h2>
+    <input type="text" id="question" placeholder="Type your question here..." />
+    <button onclick="ask()">Ask</button>
+    <div id="answer"></div>
+
+    <script>
+        async function ask() {
+            const question = document.getElementById("question").value;
+            const res = await fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question })
+            });
+            const data = await res.json();
+            document.getElementById("answer").innerText = data.answer;
+        }
+    </script>
+</body>
+</html>
+
